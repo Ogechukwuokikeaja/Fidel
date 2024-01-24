@@ -1,0 +1,21 @@
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+# URL for Netflix stock data
+url = 'https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-PY0220EN-SkillsNetwork/labs/project/netflix_data_webpage.html'
+
+# Send a GET request to the URL
+response = requests.get(url)
+
+# Parse the HTML content
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Find the table containing stock data
+table = soup.find('table', {'class': 'historical_data_table'})
+
+# Extract the data from the table and create a dataframe
+netflix_data = pd.read_html(str(table))[0]
+
+# Display the first five rows of the dataframe
+print(netflix_data.head())
